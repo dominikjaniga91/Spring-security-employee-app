@@ -9,8 +9,9 @@
 <body>
  Welcome on the home page<br><br>
 
-<a href="${pageContext.request.contextPath}/loginForm" >Login</a><br><br>
-
+<a href="${pageContext.request.contextPath}/employee" >Employee</a><br><br>
+<a href="${pageContext.request.contextPath}/leaders" >Leaders</a><br><br>
+<a href="${pageContext.request.contextPath}/settings" >Settings</a><br><br>
 
 </body>
 </html>

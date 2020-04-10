@@ -7,9 +7,9 @@
     <title>Home page</title>
 </head>
 <body>
- Welcome on the home page<br><br>
+ You don't have access to this asset<br><br>
 
-<a href="${pageContext.request.contextPath}/loginForm" >Login</a><br><br>
+<a href="${pageContext.request.contextPath}/" >Back to home page</a><br><br>
 
 
 </body>
