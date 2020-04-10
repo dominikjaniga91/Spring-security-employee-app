@@ -7,11 +7,12 @@
     <title>Home page</title>
 </head>
 <body>
- Welcome on the home page
+ Welcome on the leaders page
+ User: <security:authentication property="principal.username" />
+ Roles: <security:authentication property="principal.authorities" />
 
-<a href="${pageContext.request.contextPath}/employee" >Login</a>
-<a href="${pageContext.request.contextPath}/leaders" >Leaders</a>
-<a href="${pageContext.request.contextPath}/settings" >Settings</a>
-
+<form:form action="${pageContext.request.contextPath}/logout ">
+    <input type="submit" value="Logout">
+</form:form>
 </body>
 </html>

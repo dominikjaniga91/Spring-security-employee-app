@@ -13,6 +13,24 @@ public class DemoController {
         return "home";
     }
 
+    @GetMapping("/employee")
+    public String showEmployee(){
+
+        return "employee";
+    }
+
+    @GetMapping("/leaders")
+    public String showLeadersPage(){
+
+        return "leaders";
+    }
+
+    @GetMapping("/settings")
+    public String showSettingsPage(){
+
+        return "settings";
+    }
+
 
 
 }
