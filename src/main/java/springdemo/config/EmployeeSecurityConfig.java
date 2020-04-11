@@ -12,10 +12,15 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
+public class EmployeeSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+    private final DataSource securityDataSource;
 
     @Autowired
-    private DataSource securityDataSource;
+    public EmployeeSecurityConfig(DataSource securityDataSource){
+        this.securityDataSource = securityDataSource;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -25,16 +30,16 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/controlPanel").permitAll()
-            .antMatchers("/employee").hasRole("EMPLOYEE")
+            .antMatchers("/").permitAll()
+            .antMatchers("/employee").hasAnyRole("EMPLOYEE", "MANAGER")
             .antMatchers("/settings/**").hasRole("ADMIN")
             .antMatchers("/leaders/**").hasRole("MANAGER")
             .and()
-            .formLogin()
-            .loginPage("/loginForm")
-            .loginProcessingUrl("/authenticateTheUser").defaultSuccessUrl("/controlPanel")
-            .permitAll()
-                .and()
+                .formLogin()
+                .loginPage("/loginForm")
+                .loginProcessingUrl("/authenticateTheUser").defaultSuccessUrl("/defaultUserPage")
+                .permitAll()
+            .and()
                 .logout()
                 .logoutSuccessUrl("/")
                 .permitAll()
@@ -42,4 +47,5 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .accessDeniedPage("/accessDenied");
     }
+
 }

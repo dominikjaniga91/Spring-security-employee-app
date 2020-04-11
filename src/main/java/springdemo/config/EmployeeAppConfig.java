@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 @EnableWebMvc
 @ComponentScan(basePackages = "springdemo")
 @PropertySource("classpath:persistance.properties")
-public class DemoAppConfig {
+public class EmployeeAppConfig {
 
     @Autowired
     private Environment environment;
@@ -28,36 +28,29 @@ public class DemoAppConfig {
 
     @Bean
     public ViewResolver viewResolver(){
-
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-
         viewResolver.setPrefix("/WEB-INF/view/");
         viewResolver.setSuffix(".jsp");
-
         return viewResolver;
     }
 
     @Bean
     public DataSource dataSource(){
-        //create connection pool
         ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
 
-        //set jdbc driver class
         try{
             securityDataSource.setDriverClass(environment.getProperty("jdbc.driver"));
         }catch (PropertyVetoException ex){
             ex.printStackTrace();
         }
-        //log the connection props
+
         logger.info("jdbc url = " + environment.getProperty("jdbc.url"));
         logger.info("jdbc user = " + environment.getProperty("jdbc.user"));
 
-        // set database connection props
         securityDataSource.setJdbcUrl(environment.getProperty("jdbc.url"));
         securityDataSource.setUser(environment.getProperty("jdbc.user"));
         securityDataSource.setPassword(environment.getProperty("jdbc.password"));
 
-        //set connection pool props
         securityDataSource.setInitialPoolSize(
                 parsePropertyToInt("connection.pool.initialPoolSize"));
         securityDataSource.setMinPoolSize(
@@ -67,9 +60,8 @@ public class DemoAppConfig {
         securityDataSource.setMaxIdleTime(
                 parsePropertyToInt("connection.pool.maxIdleTime"));
 
-    return securityDataSource;
+        return securityDataSource;
     }
-
 
     private int parsePropertyToInt(String property){
         String propertyValue = Objects.requireNonNullElse(environment.getProperty(property), "100");
