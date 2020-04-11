@@ -8,10 +8,15 @@
 </head>
 <body>
  Welcome on the home page<br><br>
-
-<a href="${pageContext.request.contextPath}/employee" >Employee</a><br><br>
-<a href="${pageContext.request.contextPath}/leaders" >Leaders</a><br><br>
-<a href="${pageContext.request.contextPath}/settings" >Settings</a><br><br>
+    <security:authorize access="hasRole('EMPLOYEE')" >
+        <a href="${pageContext.request.contextPath}/employee" >Employee</a><br><br>
+    </security:authorize>
+    <security:authorize access="hasRole('MANAGER')" >
+        <a href="${pageContext.request.contextPath}/leaders" >Leaders</a><br><br>
+    </security:authorize>
+    <security:authorize access="hasRole('ADMIN')" >
+        <a href="${pageContext.request.contextPath}/settings" >Settings</a><br><br>
+    </security:authorize>
 
 </body>
 </html>
