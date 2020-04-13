@@ -2,10 +2,7 @@ package springdemo.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -18,7 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.util.Objects;
@@ -30,11 +30,17 @@ import java.util.logging.Logger;
 @ComponentScan(basePackages = "springdemo")
 @PropertySource("classpath:persistance.properties")
 @EnableJpaRepositories(basePackages = "springdemo.repository")
+@Import(ThymeleafConfig.class)
 public class EmployeeAppConfig {
 
-    @Autowired
-    private Environment environment;
+
+    private final Environment environment;
     private final Logger logger = Logger.getLogger(getClass().getName());
+
+    @Autowired
+    public EmployeeAppConfig(Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
     public ViewResolver viewResolver(){
@@ -116,4 +122,6 @@ public class EmployeeAppConfig {
         String propertyValue = Objects.requireNonNullElse(environment.getProperty(property), "100");
         return Integer.parseInt(propertyValue);
     }
+
+
 }
