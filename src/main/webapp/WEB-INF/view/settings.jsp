@@ -8,8 +8,7 @@
 </head>
 <body>
  Welcome on the settings page
- User: <security:authentication property="principal.username" />
- Roles: <security:authentication property="principal.authorities" />
+
 
 <form:form action="${pageContext.request.contextPath}/logout ">
     <input type="submit" value="Logout">

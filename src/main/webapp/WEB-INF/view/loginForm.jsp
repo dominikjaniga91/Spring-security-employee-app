@@ -55,6 +55,10 @@
 								<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 								<input type="password" name="password" placeholder="password" class="form-control" >
 							</div>
+							<div style="margin-bottom: 25px" class="input-group">
+								Remember me: <input type="checkbox" name="remember-me" />
+							</div>
+
 							<div style="margin-top: 10px" class="form-group">
 								<div class="col-sm-6 controls">
 									<button type="submit"

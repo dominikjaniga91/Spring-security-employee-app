@@ -8,6 +8,10 @@
 </head>
 <body>
  Welcome on the home page<br><br>
+ User: <security:authentication property="principal.username" />
+ Roles: <security:authentication property="principal.authorities" />
+ Password: <security:authentication property="principal" />
+
     <security:authorize access="hasRole('EMPLOYEE')" >
         <a href="${pageContext.request.contextPath}/employee" >Employee</a><br><br>
     </security:authorize>

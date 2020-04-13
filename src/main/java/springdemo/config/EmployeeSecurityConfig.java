@@ -1,12 +1,15 @@
 package springdemo.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -16,16 +19,29 @@ public class EmployeeSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private final DataSource securityDataSource;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public EmployeeSecurityConfig(DataSource securityDataSource){
+    public EmployeeSecurityConfig(DataSource securityDataSource, PasswordEncoder passwordEncoder){
         this.securityDataSource = securityDataSource;
+        this.passwordEncoder = passwordEncoder;
     }
+
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.jdbcAuthentication().dataSource(securityDataSource);
+//    }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(securityDataSource);
+        auth.inMemoryAuthentication()
+                .withUser("Dominik").password(passwordEncoder.encode("dominik123")).roles("ADMIN").and()
+                .withUser("Daria").password(passwordEncoder.encode("daria123")).roles("EMPLOYEE").and()
+                .withUser("Maciek").password(passwordEncoder.encode("bankier")).roles("MANAGER");
     }
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -36,8 +52,8 @@ public class EmployeeSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/leaders/**").hasRole("MANAGER")
             .and()
                 .formLogin()
-                .loginPage("/loginForm")
-                .loginProcessingUrl("/authenticateTheUser").defaultSuccessUrl("/defaultUserPage")
+                .loginPage("/")
+                .loginProcessingUrl("/authenticateTheUser").defaultSuccessUrl("/controlPanel")
                 .permitAll()
             .and()
                 .logout()
@@ -45,7 +61,13 @@ public class EmployeeSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
             .and()
                 .exceptionHandling()
-                .accessDeniedPage("/accessDenied");
+                .accessDeniedPage("/accessDenied")
+            .and()
+                .rememberMe()
+                .key("remember-me")
+                .rememberMeParameter("remember-me")
+                .rememberMeCookieName("rememberlogin")
+                .tokenValiditySeconds(100);
     }
 
 }
