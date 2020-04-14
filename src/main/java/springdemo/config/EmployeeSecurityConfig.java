@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import springdemo.service.UserDetailServiceImpl;
 
 import javax.sql.DataSource;
 
@@ -17,20 +18,27 @@ public class EmployeeSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource securityDataSource;
     private final PasswordEncoder passwordEncoder;
+    private final UserDetailServiceImpl userDetailService;
 
     @Autowired
-    public EmployeeSecurityConfig(DataSource securityDataSource, PasswordEncoder passwordEncoder){
+    public EmployeeSecurityConfig(DataSource securityDataSource, PasswordEncoder passwordEncoder, UserDetailServiceImpl userDetailService){
         this.securityDataSource = securityDataSource;
         this.passwordEncoder = passwordEncoder;
+        this.userDetailService = userDetailService;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("Dominik").password(passwordEncoder.encode("dominik123")).roles("ADMIN").and()
-                .withUser("Daria").password(passwordEncoder.encode("daria123")).roles("EMPLOYEE").and()
-                .withUser("Maciek").password(passwordEncoder.encode("bankier")).roles("MANAGER");
+        auth.userDetailsService(userDetailService);
     }
+
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("Dominik").password(passwordEncoder.encode("dominik123")).roles("ADMIN").and()
+//                .withUser("Daria").password(passwordEncoder.encode("daria123")).roles("EMPLOYEE").and()
+//                .withUser("Maciek").password(passwordEncoder.encode("bankier")).roles("MANAGER");
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

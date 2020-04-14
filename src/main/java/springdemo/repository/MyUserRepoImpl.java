@@ -8,6 +8,6 @@ import springdemo.model.MyUser;
 @Repository
 public interface MyUserRepoImpl extends JpaRepository<MyUser, Integer> {
 
-
+        MyUser findByUsername(String username);
 
 }
