@@ -9,13 +9,13 @@ public class LoginController {
     @GetMapping("/")
     public String showLoginForm(){
 
-        return "loginForm";
+        return "login-form";
     }
 
     @GetMapping("/accessDenied")
     public String accessDenied(){
 
-        return "accessDenied";
+        return "access-denied";
     }
 
 }

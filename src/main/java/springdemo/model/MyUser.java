@@ -7,19 +7,10 @@ import javax.persistence.*;
 public class MyUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
     private String username;
     private String password;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private int enabled = 1;
+    private String authority;
 
     public String getUsername() {
         return username;
@@ -37,5 +28,19 @@ public class MyUser {
         this.password = password;
     }
 
+    public int getEnabled() {
+        return enabled;
+    }
 
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
 }

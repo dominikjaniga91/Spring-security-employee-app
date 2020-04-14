@@ -1,0 +1,44 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+        <title>Home page</title>
+    </head>
+    <body>
+        <h2>Welcome on the home page</h2>
+        <form action="/logout" th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout">
+        </form>
+        <br><br>
+        Username: <div sec:authentication="name"></div><br><br>
+        User roles: <div sec:authentication="principal.authorities"></div><br><br>
+
+        <div sec:authorize="hasRole('ROLE_EMPLOYEE')">
+            <a href="/employee" th:href="@{/employee}">Employee</a><br>
+        </div>
+        <div sec:authorize="hasRole('ROLE_MANAGER')">
+            <a href="/leaders" th:href="@{/leaders}" >Leaders</a><br>
+        </div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <span></span>
+            <a href="/settings" th:href="@{/settings}" >Settings</a><br><br>
+        </div>
+        <h3>Add user</h3>
+        <form action="/add-user" th:object="${myUser}" th:action="@{/add-user}" method="post">
+            Username: <input type="text" th:field="*{username}" required><br><br>
+            Password: <input type="password" th:field="*{password}" required><br><br>
+            Role: <select th:field="*{authority}" required>
+                    <option value="" disabled selected>Choose role</option>
+                    <option th:each="authorities : ${authorities}"
+                            th:value="${authorities}"
+                            th:text="${authorities.getValues()}">
+                    </option>
+                  </select>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <input type="submit" value="Add user">
+        </form>
+
+
+    </body>
+</html>
