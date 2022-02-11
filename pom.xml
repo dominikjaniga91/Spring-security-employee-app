@@ -10,7 +10,7 @@
 
 	<properties>
 		<springframework.version>5.2.5.RELEASE</springframework.version>
-		<springsecurity.version>5.3.1.RELEASE</springsecurity.version>
+		<springsecurity.version>5.3.9.RELEASE</springsecurity.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<tomcat.version>9.0.34</tomcat.version>
