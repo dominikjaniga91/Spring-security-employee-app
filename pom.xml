@@ -9,7 +9,7 @@
 	<name>spring-security-demo</name>
 
 	<properties>
-		<springframework.version>5.2.5.RELEASE</springframework.version>
+		<springframework.version>5.3.18</springframework.version>
 		<springsecurity.version>5.3.9.RELEASE</springsecurity.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
